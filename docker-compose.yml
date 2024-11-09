@@ -1,0 +1,62 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-app
+    container_name: laravel-app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    networks:
+      - transcript-nt
+
+  web:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www 
+      - ./nginx:/etc/nginx/conf.d/
+    networks:
+      - transcript-nt
+
+  db:
+    image: mysql:5.7
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootPassword"
+      MYSQL_DATABASE: "dbtranscript"
+      MYSQL_USER: "usertranscript"
+      MYSQL_PASSWORD: "passtranscript"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - transcript-nt
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: rootPassword
+    ports:
+      - "8080:80"
+    networks:
+      - transcript-nt
+
+networks:
+  transcript-nt:
+    driver: bridge
+
+volumes: 
+  mysql-data: 
+    labels: 
+      description: "MySQL data volume"
