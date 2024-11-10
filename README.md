@@ -80,6 +80,10 @@ Make sure you have the following software installed on your local machine:
     ```bash
     php artisan migrate --seed
     ```
+6. Run the database migrations and seeders:
+    ```bash
+    php artisan backpack:install
+    ```
 You can access the app in your browser now
 
 
@@ -139,6 +143,10 @@ docker compose exec app bash
 ```
 php artisan migrate --seed
 ```
+9. Run the database migrations and seeders:
+    ```bash
+    php artisan backpack:install
+    ```
 
 You can access the app in your browser on
 
