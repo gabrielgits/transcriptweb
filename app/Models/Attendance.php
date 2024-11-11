@@ -34,6 +34,12 @@ class Attendance extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function student(){
+        return $this->belongsTo('App\Models\Student','student_id');
+    }
+    public function classe(){
+        return $this->belongsTo('App\Models\Classe','classe_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

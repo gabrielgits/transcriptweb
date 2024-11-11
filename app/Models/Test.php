@@ -34,6 +34,12 @@ class Test extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function exam(){
+        return $this->belongsTo('App\Models\Exam','exam_id');
+    }
+    public function student(){
+        return $this->belongsTo('App\Models\Student','student_id');
+    }
 
     /*
     |--------------------------------------------------------------------------
