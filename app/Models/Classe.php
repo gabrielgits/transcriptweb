@@ -34,6 +34,9 @@ class Classe extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function course(){
+        return $this->belongsTo('App\Models\Course','course_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

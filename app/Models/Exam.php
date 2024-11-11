@@ -34,6 +34,9 @@ class Exam extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function classe(){
+        return $this->belongsTo('App\Models\Classe','classe_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

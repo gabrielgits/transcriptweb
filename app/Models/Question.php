@@ -34,6 +34,12 @@ class Question extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function answer(){
+        return $this->belongsTo('App\Models\Answer','answer_id');
+    }
+    public function exam(){
+        return $this->belongsTo('App\Models\Exam','exam_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

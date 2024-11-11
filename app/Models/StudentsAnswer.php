@@ -34,6 +34,16 @@ class StudentsAnswer extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function student(){
+        return $this->belongsTo('App\Models\Student','student_id');
+    }
+    public function answer(){
+        return $this->belongsTo('App\Models\Answer','answer_id');
+    }
+
+    public function test(){
+        return $this->belongsTo('App\Models\Test','test_id');
+    }
 
     /*
     |--------------------------------------------------------------------------

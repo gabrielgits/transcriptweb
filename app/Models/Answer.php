@@ -34,6 +34,9 @@ class Answer extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
+    public function question(){
+        return $this->belongsTo('App\Models\Question','question_id');
+    }
 
     /*
     |--------------------------------------------------------------------------
