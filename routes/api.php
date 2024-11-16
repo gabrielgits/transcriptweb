@@ -1,9 +1,11 @@
 <?php
 
+namespace App\Http\Controllers\Api;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Resources\UserResource;
+//use App\Http\Resources\UserResource;
 use App\Models\User;
 
 use App\Http\Controllers\api\UserController;
@@ -31,7 +33,7 @@ Route::get('show/{id}', [AuthController::class, 'show']);
 
 
 Route::apiResource('users', UserController::class)->only([
-    'index'
+    'index', 'store',
 ]);
 Route::apiResource('tests', TestController::class);
 Route::apiResource('studentsanswers', StudentsAnswerController::class);
