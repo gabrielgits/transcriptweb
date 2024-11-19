@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
+//use Illuminate\Notifications\Notifiable;
+//use Laravel\Passport\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
 
 class Student extends Model
 {
     use CrudTrait;
+    use HasApiTokens, Notifiable;
 
     /*
     |--------------------------------------------------------------------------

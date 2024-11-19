@@ -23,13 +23,14 @@ use App\Http\Controllers\api\CourseController;
 |
 */
 
+Route::post('register', [AuthController::class, 'register']); 
+Route::post('login', [AuthController::class, 'login']); 
+Route::middleware('auth:sanctum')->get('profile', [AuthController::class, 'profile']); 
+Route::middleware('auth:sanctum')->delete('logout', [AuthController::class, 'logout']);
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::post('register', [AuthController::class, 'register']);
-Route::post('startprofile', [AuthController::class, 'updateInicial']);
-Route::get('show/{id}', [AuthController::class, 'show']);
 
 
 Route::apiResource('users', UserController::class)->only([
