@@ -28,6 +28,10 @@ class Exam extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
+    public function sendExam($crud = false)
+    {
+        return '<a class="btn btn-sm btn-link" href="exam/send/'.urlencode($this->id).'" data-toggle="tooltip" title="Send exam to students"><i class="la la-send"></i> Send Exam</a>';
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -36,6 +40,10 @@ class Exam extends Model
     */
     public function classe(){
         return $this->belongsTo('App\Models\Classe','classe_id');
+    }
+
+    public function questions(){
+        return $this->hasMany('App\Models\Question','exam_id');
     }
 
     /*

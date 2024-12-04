@@ -5,15 +5,14 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Resources\AttendanceResource;
+use App\Http\Resources\DailypointResource;
 
-use App\Models\Attendance;
-use App\Models\Classe;
+use App\Models\Dailypoint;
 
 use Illuminate\Support\Facades\Validator;
 
 
-class AttendanceController extends Controller
+class DailypointController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,17 +22,7 @@ class AttendanceController extends Controller
     public function index()
     {
         //
-        return AttendanceResource::collection(Attendance::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return DailypointResource::collection(Dailypoint::all());
     }
 
     /**
@@ -46,6 +35,7 @@ class AttendanceController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
+            'point' => 'required',
             'student_id' => 'required',
             'classe_id' => 'required',
         ]);
@@ -58,14 +48,15 @@ class AttendanceController extends Controller
             ]);
         }
 
-        $newAttendance = new Attendance;
-        $newAttendance->student_id = $request->input('student_id');
-        $newAttendance->classe_id = $request->input('classe_id');
+        $newDailypoint = new Dailypoint;
+        $newDailypoint->point = $request->input('point');
+        $newDailypoint->student_id = $request->input('student_id');
+        $newDailypoint->classe_id = $request->input('classe_id');
 
 
-        if($newAttendance->save())
+        if($newDailypoint->save())
         {
-            return new AttendanceResource(Attendance::find($newAttendance->id));
+            return new DailypointResource(Dailypoint::find($newDailypoint->id));
         }
 
         return response()->json([
@@ -84,19 +75,9 @@ class AttendanceController extends Controller
     public function show($id)
     {
         //
-        return new AttendanceResource(Attendance::find($id));
+        return new DailypointResource(Dailypoint::find($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -108,9 +89,9 @@ class AttendanceController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $attendance = Attendance::find($id);
-        $attendance->update($request->all());
-        return new AttendanceResource($attendance);
+        $dailypoint = Dailypoint::find($id);
+        $dailypoint->update($request->all());
+        return new DailypointResource($dailypoint);
     }
 
     /**
@@ -121,45 +102,37 @@ class AttendanceController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $attendance = Attendance::find($id);
-        $attendance->delete();
-        return new AttendanceResource($attendance);
+        
+        $dailypoint = Dailypoint::find($id);
+        $dailypoint->delete();
+        return new DailypointResource($dailypoint);
     }
 
     public function student($id){
-     
-        $attendances = Attendance::where('student_id', $id)->get();
-       
-        $countAll = $attendances->count();
-        $countPresent = $attendances->where('status','present')->count();
-        $countAbsent = $countAll - $countPresent;
 
-        $percent = 0;
-        if ($countAll > 0) {
-            $percent = $countPresent / $countAll * 100;
-        }
+        $dailypoints = Dailypoint::where('student_id', $id)->get();
+       
+        $countAll = $dailypoints->count();
+        $average = $dailypoints->avg('point');
         
         return response()->json([
             'status' => true,
             'message' => 'Success',
             'data' => [
-                'percent' => $percent,
+                'average' => $average, 
                 'countAll' => $countAll,
-                'countPresent' => $countPresent,
-                'countAbsent' => $countAbsent,
             ],
         ]);
     }
 
     public function studentAll($id){
-
-        $attendances = Attendance::where('student_id', $id)->get();
+ 
+        $dailypoints = Dailypoint::where('student_id', $id)->get();
         
         return response()->json([
             'status' => true,
             'message' => 'Success',
-            'data' => AttendanceResource::collection($attendances),
+            'data' => DailypointResource::collection($dailypoints),
         ]);
     }
 }

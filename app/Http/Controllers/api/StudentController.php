@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Student;
+use App\Models\Test;
+use App\Models\Attendance;
+use App\Models\Dailypoint;
 use App\Http\Resources\StudentResource;
 use Illuminate\Support\Facades\Hash;
 
@@ -127,5 +130,68 @@ class StudentController extends Controller
     {
         //
         return Student::destroy($id);
+    }
+
+    public function finalScore($id){
+      
+        $finalAverage = 0;
+        
+        // get testes average
+        $testes = Test::where([
+            ['student_id', $id],
+            ['status', '<>' , 'pending'],
+            ['status', '<>' , 'ongoing'],
+        ])->orderBy('id', 'desc')->get();
+        
+        $testesAverage = $testes->avg('score');
+        
+        // get attendances count and percent
+        $attendances = Attendance::where('student_id', $id)->get();
+       
+        $attendancesCountAll = $attendances->count();
+        $attendancesCountPresent = $attendances->where('status','present')->count();
+
+        $attendancesPercent = 0;
+        if ($attendancesCountAll > 0) {
+            $attendancesPercent = $attendancesCountPresent / $attendancesCountAll * 100;
+        } 
+
+        // get daily point average
+        $dailypoints = Dailypoint::where('student_id', $id)->get();
+        $dailypointsAverage = $dailypoints->avg('point');
+
+        // calculate final daily point
+        $dailypointsAverageFinal = 0;
+        if ($attendancesPercent >= 70 && $attendancesPercent < 90){
+            $dailypointsAverageFinal = $dailypointsAverage * 0.50;
+        } else if ($attendancesPercent >= 70 && $attendancesPercent < 90){
+            $dailypointsAverageFinal = $dailypointsAverage;
+        }
+
+        // get finalAverage
+        $finalAverage =  $testesAverage + $dailypointsAverageFinal;
+
+        // check all data
+        if (is_nan($testesAverage) || $testesAverage == null) {
+            $testesAverage = 0;
+        }
+        if (is_nan($dailypointsAverageFinal) || $dailypointsAverageFinal == null) {
+            $dailypointsAverageFinal = 0;
+        }
+        if (is_nan($finalAverage) || $finalAverage == null) {
+            $finalAverage = 0;
+        }
+
+        // return results
+        return response()->json([
+            'status' => true,
+            'message' => 'Success',
+            'data' => [
+                'testesAverage' => $testesAverage,
+                'attendancesPercent' => $attendancesPercent,
+                'dailypointsAverageFinal' => $dailypointsAverageFinal,
+                'finalAverage' => $finalAverage,
+            ],
+        ]);
     }
 }

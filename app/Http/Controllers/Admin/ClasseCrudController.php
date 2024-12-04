@@ -62,11 +62,10 @@ class ClasseCrudController extends CrudController
     {
         CRUD::setValidation(ClasseRequest::class);
 
-        CRUD::field('id');
+
         CRUD::field('summary');
         CRUD::field('course_id');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

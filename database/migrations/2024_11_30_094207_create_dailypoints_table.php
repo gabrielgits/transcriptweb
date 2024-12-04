@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateExamsTable extends Migration
+class CreateDailypointsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateExamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('exams', function (Blueprint $table) {
+        Schema::create('dailypoints', function (Blueprint $table) {
             $table->id();
-            $table->string('name',64);
-            $table->string('status',32)->default('pending');
-            $table->integer('time')->default(30);
+            $table->integer('point');
+            $table->foreignId('student_id')->constrained();
             $table->foreignId('classe_id')->constrained();
             $table->timestamps();
         });
@@ -30,6 +29,6 @@ class CreateExamsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('exams');
+        Schema::dropIfExists('dailypoints');
     }
 }

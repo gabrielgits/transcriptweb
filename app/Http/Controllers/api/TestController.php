@@ -5,7 +5,9 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\TestResource;
+use App\Http\Resources\QuestionResource;
 use App\Models\Test;
+use App\Models\Question;
 use Illuminate\Support\Facades\Validator;
 
 class TestController extends Controller
@@ -41,9 +43,8 @@ class TestController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'score' => 'required',
-            'points' => 'required',
-            'student_id' => 'required',
+            'testeId' => 'required',
+            'studentId' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -54,23 +55,30 @@ class TestController extends Controller
             ]);
         }
 
-        $newTest = new Test;
-        $newTest->score = $request->input('score');
-        $newTest->points = $request->input('points');
-        $newTest->status = $request->input('status');
-        $newTest->exam_id = $request->input('exam_id');
-        $newTest->student_id = $request->input('student_id');
-
-        if($newUser->save())
-        {
-            return new UserResource(User::find($newUser->id));
+        $teste = Test::find($request->input('testeId'));
+        if (($teste->status != 'ongoing') && ($teste->status != 'pending')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'The test is not available',
+                'data' => null,
+            ]);
         }
 
-        return response()->json([
-            'status' => false,
-            'message' => 'Something went wrong',
-            'data' => null,
-        ]);
+        if (($teste->exam->status != 'ongoing') && ($teste->exam->status != 'pending')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'The exam is not available',
+                'data' => null,
+            ]);
+        }
+
+        $teste->status = 'ongoing';
+        $teste->save();
+
+        $questions = Question::where('exam_id', $teste->exam_id)->get();
+
+        return QuestionResource::collection($questions);
+       
     }
 
     /**
@@ -121,5 +129,47 @@ class TestController extends Controller
     {
         //
         return Test::destroy($id);
+    }
+
+    public function student($id){
+      
+        $testes = Test::where('student_id', $id)->get();
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'Success',
+            'data' => TestResource::collection($testes),
+        ]);
+    }
+
+    public function studentLimit($id,$limit){
+      
+        $testes = Test::where([
+            ['student_id', $id],
+            ['status', '<>' , 'pending'],
+            ['status', '<>' , 'ongoing'],
+        ])->orderBy('id', 'desc')->get();
+
+
+        if ($testes->count() < 1) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data not found',
+                'data' => null,
+            ]);
+        }
+
+        $average = $testes->avg('score');
+        $testesLimit = $testes->take($limit);
+        
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'Success',
+            'data' => [
+                'average' => $average, 
+                'testes' => TestResource::collection($testesLimit),
+            ],
+        ]);
     }
 }

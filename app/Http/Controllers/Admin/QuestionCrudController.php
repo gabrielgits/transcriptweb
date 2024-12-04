@@ -64,13 +64,20 @@ class QuestionCrudController extends CrudController
     {
         CRUD::setValidation(QuestionRequest::class);
 
-        CRUD::field('id');
         CRUD::field('question');
         CRUD::field('correct_line');
         CRUD::field('answer_id');
-        CRUD::field('exam_id');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
+        // get all exams where status is pending
+        CRUD::addField([
+            'name' => 'exam_id',
+            'type' => 'select',
+            'model' => 'App\Models\Exam',
+            'attribute' => 'name',
+            'options'   => (function ($query) {
+                return $query->where('status', 'pending')->get();
+            }),
+            'allows_null' => false,
+        ]);
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

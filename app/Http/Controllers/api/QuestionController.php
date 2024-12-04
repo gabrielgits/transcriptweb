@@ -124,4 +124,15 @@ class QuestionController extends Controller
         //
         return Question::destroy($id);
     }
+    public function questions($id){
+
+        $questions = Question::where('exam_id', $id)->get();
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'Success',
+            'data' => QuestionResource::collection($questions),
+            //'data' => [],
+        ]);
+    }
 }

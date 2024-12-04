@@ -39,12 +39,14 @@ class ExamCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
+        // add custom buttons to the linear list
+        $this->crud->addButtonFromModelFunction('line', 'send_exam', 'sendExam', 'beginning');
+
+        CRUD::column('name');
         CRUD::column('status');
         CRUD::column('time');
         CRUD::column('classe_id');
         CRUD::column('created_at');
-        CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -63,12 +65,21 @@ class ExamCrudController extends CrudController
     {
         CRUD::setValidation(ExamRequest::class);
 
-        CRUD::field('id');
-        CRUD::field('status');
+        CRUD::field('name');
+
+        CRUD::addField([
+            'name' => 'status',
+            'type' => 'select_from_array',
+            'options' => [
+                'pending' => 'Pending',
+                'ongoing' => 'Ongoing',
+                'done' => 'Done',
+            ],
+            'allows_null' => false,
+            'default' => 'pending',
+        ]);
         CRUD::field('time');
         CRUD::field('classe_id');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -86,5 +97,21 @@ class ExamCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function sendExam($id)
+    {
+        $exam = \App\Models\Exam::find($id);
+        $students = \App\Models\Student::where('status', 'active')->get();
+        foreach ($students as $student) {
+            $test = new \App\Models\Test;
+            $test->exam_id = $exam->id;
+            $test->student_id = $student->id;
+            $test->save();
+        }
+        \Alert::add('success', 'The exam: ' . $exam->name . ' has been sent successfully')->flash();
+        return redirect()->back();
+
+    
     }
 }

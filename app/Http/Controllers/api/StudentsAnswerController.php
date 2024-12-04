@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\StudentsAnswerResource;
 use App\Models\StudentsAnswer;
+use App\Http\Resources\TestResource;
+use App\Models\Test;
+use Illuminate\Support\Facades\Validator;
 
 class StudentsAnswerController extends Controller
 {
@@ -40,10 +43,9 @@ class StudentsAnswerController extends Controller
     {
         //
         $validator = Validator::make($request->all(), [
-            'student_id' => 'required',
-            'answer_id' => 'required',
-            'test_id' => 'required',
-            'question_id' => 'required',
+            'studentId' => 'required', // id of student
+            'answers' => 'required', // map of answers <int:question_id> => <int:answer_id>
+            'testeId' => 'required', // id of test
         ]);
 
         if ($validator->fails()) {
@@ -54,23 +56,46 @@ class StudentsAnswerController extends Controller
             ]);
         }
 
-        $newStudentA = new StudentsAnswer;
-        $newStudentA->student_id = $request->input('student_id');
-        $newStudentA->answer_id = $request->input('answer_id');
-        $newStudentA->test_id = $request->input('test_id');
-        $newStudentA->question_id = $request->input('question_id');
-
-
-        if($newStudentA->save())
-        {
-            return new StudentsAnswerResource(StudentsAnswer::find($newStudentA->id));
+        $teste = Test::find($request->input('testeId'));
+        if (($teste->status != 'ongoing') && ($teste->status != 'pending')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'The test is not available',
+                'data' => null,
+            ]);
         }
 
+        $correctAnswers = 0;
+
+        foreach ($request->input('answers') as $questionId => $answerId) {
+            $question = $teste->exam->questions->where('id', $questionId)->first();
+            if ($question->answer_id == $answerId) {
+                $correctAnswers++;
+            }
+        }
+
+        $score = ($correctAnswers / $teste->exam->questions->count()) * 20;
+
+        // save all answers
+        foreach ($request->input('answers') as $questionId => $answerId) {
+            $studentAnswer = new StudentsAnswer;
+            $studentAnswer->student_id = $request->input('studentId');
+            $studentAnswer->question_id = $questionId;
+            $studentAnswer->answer_id = $answerId;
+            $studentAnswer->test_id = $request->input('testeId');
+            $studentAnswer->save();
+        }
+
+        $teste->status = 'finished';
+        $teste->score = $score;
+        
+        $teste->save();
+
         return response()->json([
-            'status' => false,
-            'message' => 'Something went wrong',
-            'data' => null,
-        ]);
+            'status' => true,
+            'message' => 'Success',
+            'data' => new TestResource($teste),
+        ]);;
     }
 
     /**

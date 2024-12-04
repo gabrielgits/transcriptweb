@@ -19,10 +19,12 @@ class TestResource extends JsonResource
             'status' => $this->status,
             'score' => $this->score,
             'points' => $this->points,
+            'createdAt' => $this->created_at, 
+            'studentId' => $this->student_id,
+            //'student' => new StudentResource($this->student),
             'examId' => $this->exam_id,
             'exam' => new ExamResource($this->exam),
-            'studentId' => $this->student_id,
-            'student' => new StudentResource($this->student),
+
         ];
     }
 }

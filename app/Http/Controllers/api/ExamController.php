@@ -125,4 +125,6 @@ class ExamController extends Controller
         $exam->delete();
         return new ExamResource($exam);
     }
+
+
 }

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\AttendanceRequest;
+use App\Http\Requests\DailypointRequest;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 
 /**
- * Class AttendanceCrudController
+ * Class DailypointCrudController
  * @package App\Http\Controllers\Admin
  * @property-read \Backpack\CRUD\app\Library\CrudPanel\CrudPanel $crud
  */
-class AttendanceCrudController extends CrudController
+class DailypointCrudController extends CrudController
 {
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -26,9 +26,9 @@ class AttendanceCrudController extends CrudController
      */
     public function setup()
     {
-        CRUD::setModel(\App\Models\Attendance::class);
-        CRUD::setRoute(config('backpack.base.route_prefix') . '/attendance');
-        CRUD::setEntityNameStrings('attendance', 'attendances');
+        CRUD::setModel(\App\Models\Dailypoint::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/dailypoint');
+        CRUD::setEntityNameStrings('dailypoint', 'dailypoints');
     }
 
     /**
@@ -40,9 +40,9 @@ class AttendanceCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column('id');
+        CRUD::column('point');
         CRUD::column('student_id');
         CRUD::column('classe_id');
-        CRUD::column('status');
         CRUD::column('created_at');
         CRUD::column('updated_at');
 
@@ -61,18 +61,25 @@ class AttendanceCrudController extends CrudController
      */
     protected function setupCreateOperation()
     {
-        CRUD::setValidation(AttendanceRequest::class);
+        CRUD::setValidation(DailypointRequest::class);
 
+       
+        
         CRUD::field('student_id');
         CRUD::field('classe_id');
         CRUD::addField([
-            'name' => 'status', 
-            'type' => 'select_from_array', 
-            'options' => ['pending' => 'Pending', 'present' => 'Present', 'absent' => 'Absent'],
+            'name' => 'point',
+            'type' => 'select_from_array',
+            'options' => [
+                '1' => 'Very Bad',
+                '2' => 'Bad',
+                '3' => 'Normal',
+                '4' => 'Good',
+                '5' => 'Very Good',
+            ],
             'allows_null' => false,
-            'default' => 'pending',
-        ]); 
-
+            'default' => '1',
+        ]);
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');

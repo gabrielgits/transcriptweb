@@ -16,8 +16,10 @@ class ExamResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'status' => $this->status,
             'time' => $this->time,
+            'createdAt' => $this->created_at, 
             'classeId' => $this->classe_id,
             'classe' => new ClasseResource($this->classe),
         ];

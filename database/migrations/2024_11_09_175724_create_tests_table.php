@@ -15,7 +15,7 @@ class CreateTestsTable extends Migration
     {
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
-            $table->string('status',32)->default('pending');
+            $table->string('status',32)->default('pending'); // pending, ongoing, submitted, done, missing
             $table->double('score')->default(0);
             $table->double('points')->default(0);
             $table->foreignId('exam_id')->constrained();

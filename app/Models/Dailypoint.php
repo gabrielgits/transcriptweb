@@ -4,14 +4,10 @@ namespace App\Models;
 
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-//use Laravel\Passport\HasApiTokens;
-use Laravel\Sanctum\HasApiTokens;
 
-class Student extends Model
+class Dailypoint extends Model
 {
     use CrudTrait;
-    use HasApiTokens, Notifiable;
 
     /*
     |--------------------------------------------------------------------------
@@ -19,7 +15,7 @@ class Student extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'students';
+    protected $table = 'dailypoints';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     protected $guarded = ['id'];
@@ -38,8 +34,11 @@ class Student extends Model
     | RELATIONS
     |--------------------------------------------------------------------------
     */
-    public function course(){
-        return $this->belongsTo('App\Models\Course','course_id');
+    public function student(){
+        return $this->belongsTo('App\Models\Student','student_id');
+    }
+    public function classe(){
+        return $this->belongsTo('App\Models\Classe','classe_id');
     }
 
     /*

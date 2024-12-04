@@ -14,14 +14,15 @@ class QuestionResource extends JsonResource
      */
     public function toArray($request): array
     {
+        $answers = \App\Models\Answer::where('question_id', $this->id)->get();
         return [
             'id' => $this->id,
             'question' => $this->question,
-            'correct_line' => $this->correct_line,
+            'correctLine' => $this->correct_line,
             'answerId' => $this->answer_id,
-            'answer' => new AnswerResource($this->answer),
+            'createdAt' => $this->created_at, 
             'examId' => $this->exam_id,
-            'exam' => new ExamResource($this->exam),
+            'answers' => AnswerResource::collection($answers),
         ];
     }
 }

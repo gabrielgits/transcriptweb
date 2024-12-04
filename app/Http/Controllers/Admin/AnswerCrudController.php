@@ -62,13 +62,12 @@ class AnswerCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(AnswerRequest::class);
-
-        CRUD::field('id');
+        
+        CRUD::field('question_id');
         CRUD::field('line');
         CRUD::field('answer');
-        CRUD::field('question_id');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
+       
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

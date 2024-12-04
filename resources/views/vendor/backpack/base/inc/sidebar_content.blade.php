@@ -10,3 +10,4 @@
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('answer') }}'><i class='nav-icon la la-question'></i> Answers</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('test') }}'><i class='nav-icon la la-question'></i> Tests</a></li>
 <li class='nav-item'><a class='nav-link' href='{{ backpack_url('students-answer') }}'><i class='nav-icon la la-question'></i> Students answers</a></li>
+<li class='nav-item'><a class='nav-link' href='{{ backpack_url('dailypoint') }}'><i class='nav-icon la la-question'></i> Dailypoints</a></li>
