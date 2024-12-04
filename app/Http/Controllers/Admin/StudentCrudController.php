@@ -39,22 +39,27 @@ class StudentCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
+
         CRUD::column('name');
-        CRUD::column('photo');
+       
         CRUD::column('phone');
         CRUD::column('status');
-        CRUD::column('password');
         CRUD::column('course_id');
-        CRUD::column('remember_token');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
+
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
+    }
+
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
+        CRUD::column('photo');
+        CRUD::column('created_at');
+        CRUD::column('updated_at');
     }
 
     /**
@@ -67,16 +72,33 @@ class StudentCrudController extends CrudController
     {
         CRUD::setValidation(StudentRequest::class);
 
-        CRUD::field('id');
         CRUD::field('name');
-        CRUD::field('photo');
+        
         CRUD::field('phone');
-        CRUD::field('status');
-        CRUD::field('password');
+        CRUD::addField([
+            'name' => 'status',
+            'type' => 'select_from_array',
+            'options' => [
+                'pending' => 'Pending',
+                'active' => 'Active',
+                'blocked' => 'Blocked',
+            ],
+            'allows_null' => false,
+            'default' => 'pending',
+        ]);
+        CRUD::addField([
+            'name' => 'password',
+            'type' => 'password',
+            'label' => 'Password'
+        ]);
         CRUD::field('course_id');
-        CRUD::field('remember_token');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
+        CRUD::addField([   // Hidden
+            'name'  => 'photo',
+            'type'  => 'hidden',
+            'value' => 'default.png',
+        ],);
+
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
