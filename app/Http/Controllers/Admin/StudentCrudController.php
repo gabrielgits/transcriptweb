@@ -115,6 +115,28 @@ class StudentCrudController extends CrudController
      */
     protected function setupUpdateOperation()
     {
-        $this->setupCreateOperation();
+        CRUD::setValidation(StudentRequest::class);
+
+        CRUD::field('name');
+        
+        CRUD::field('phone');
+        CRUD::addField([
+            'name' => 'status',
+            'type' => 'select_from_array',
+            'options' => [
+                'pending' => 'Pending',
+                'active' => 'Active',
+                'blocked' => 'Blocked',
+            ],
+            'allows_null' => false,
+            'default' => 'pending',
+        ]);
+        CRUD::addField([
+            'name' => 'password',
+            'type' => 'hidden',
+        ]);
+        CRUD::field('course_id');
+
+
     }
 }
