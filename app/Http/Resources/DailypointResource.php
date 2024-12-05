@@ -21,7 +21,7 @@ class DailypointResource extends JsonResource
             'studentId' => $this->student_id,
             //'student' => new StudentResource($this->student),
             'classeId' => $this->classe_id,
-            //'classe' => new AnswerResource($this->classe),
+            'classe' => new ClasseResource($this->classe),
         ];
     }
 }
