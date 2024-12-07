@@ -24,4 +24,8 @@ Route::get('/terms-conditions', function () {
     return view('landing.terms-conditions');
 });
 
+Route::get('/delete', function () {
+    return view('landing.delete');
+});
+
 
