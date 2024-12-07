@@ -14,7 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing.index');
+});
+Route::get('/privacy-policy', function () {
+    return view('landing.privacy-policy');
+});
+
+Route::get('/terms-conditions', function () {
+    return view('landing.terms-conditions');
 });
 
 
