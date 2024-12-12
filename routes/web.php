@@ -15,17 +15,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('landing.index');
-});
+})->name('home');
 Route::get('/privacy-policy', function () {
     return view('landing.privacy-policy');
-});
+})->name('privacy-policy');
 
 Route::get('/terms-conditions', function () {
     return view('landing.terms-conditions');
-});
+})->name('terms-conditions');
 
 Route::get('/delete', function () {
     return view('landing.delete');
-});
+})->name('delete');
 
 
