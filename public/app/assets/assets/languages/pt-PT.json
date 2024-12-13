@@ -1,0 +1,135 @@
+{
+  "msn": {
+    "welcome": "Transcript é um sistema de avaliação estudantil tudo-em-um para escolas e universidades.",
+    "error": "Houston, temos um problema.",
+    "welcomeBack": "Bem-vindo de volta {student}",
+    "noData": "Não há dados para mostrar"
+  },
+  "home": {
+    "options": "Opções",
+    "signin": "Entrar",
+    "signout": "Sair",
+    "profile": "Meu Perfil",
+    "noAccount": "Ei, você ainda não tem uma conta. Você pode criar uma agora mesmo.",
+    "category": "Categoria",
+    "dailyPoint": "Pontos Diário",
+    "examsPoints": "Últimos Exames",
+    "average": "Média Final",
+    "attendances": "Presenças",
+    "totalPoints": "Total de Pontos",
+    "reviews": "Envie-nos suas opiniões",
+    "touch": "Toque para obter mais informações"
+  },
+  "login": {
+    "title": "Login",
+    "subtitle": "Faça login na sua conta",
+    "phone": "Telefone",
+    "password": "Senha",
+    "forgotPassword": "Esqueceu a Senha?",
+    "btnLogin": "Entrar",
+    "btnSignUp": "Inscrever-se",
+    "google": "Entrar com Google",
+    "facebbok": "Entrar com Facebook",
+    "or": "não tem uma conta",
+    "failed": "Falha no login. Por favor, tente novamente.",
+    "changePassword": "Alterar Senha"
+  },
+  "profile": {
+    "title": "Meu Perfil",
+    "countPresent": "Presenças",
+    "countAbsent": "Ausencias",
+    "countAll": "Aulas",
+    "teacher" : "Professor",
+    "changePassword": "Alterar Senha"
+  },
+  "changePwd": {
+    "title": "Alterar Senha",
+    "subtitle": "Por favor, insira sua senha antiga e nova",
+    "oldPassword": "Senha Antiga",
+    "newPassword": "Nova Senha",
+    "confirmPassword": "Confirmar Senha",
+    "btnChange": "Alterar",
+    "notMatch": "A Nova Senha e a Confirmação da Senha não coincidem",
+    "success": "Senha alterada com sucesso"
+  },
+  "settings": {
+    "title": "Configurações",
+    "languages": "Idiomas",
+    "loading": "Carregando Configurações"
+  },
+  "landing": {
+    "title1": "Simplifique o acompanhamento do desempenho escolar.",
+    "title2": "Informações acadêmicas acessíveis a qualquer momento.",
+    "title3": "Gestão educativa eficiente e transparente.",
+    "btnStart": "Começar"
+  },
+  "attendances": {
+    "title": "Presenças",
+    "loading": "Carregando Presenças",
+    "classeNumber": "Número da Aula",
+    "date": "Data",
+    "countPresent": "Número de Presenças",
+    "countAbsent": "Número de Ausencias",
+    "countAll": "Aulas"
+  },
+  "dailypoints": {
+    "title": "Pontos Diários",
+    "classeNumber": "Número da Aula",
+    "date": "Data",
+    "veryBad": "Muito Ruim",
+    "bad": "Ruim",
+    "normal": "Normal",
+    "good": "Bom",
+    "veryGood": "Muito Bom"
+  },
+  "testes": {
+    "title": "Exames",
+    "classeNumber": "Número da Aula",
+    "score": "Pontuação",
+    "date": "Data",
+    "average": "Média"
+  },
+  "status": {
+    "pending": "Pendente",
+    "ongoing": "Em andamento",
+    "submitted": "Enviado",
+    "done": "Concluído",
+    "finished": "Finalizado",
+    "missing": "Ausente",
+    "active": "Ativo",
+    "inactive": "Inativo"
+  },
+  "student": {
+    "testesAverage": "Média de Exames",
+    "attendancesPercent": "Percentual de Presenças",
+    "dailypointsAverageFinal": "Pontos diários adicionais",
+    "finalAverage": "Média Final"
+  },
+  "testeDetails": {
+    "title": "Detalhes do Teste",
+    "subject": "Disciplina",
+    "status": "Status",
+    "score": "Pontuação",
+    "examDate": "Data do Exame",
+    "createDate": "Data de Criação",
+    "start": "Iniciar Teste",
+    "startExam": "Você quer começar agora?",
+    "yes": "Sim",
+    "no": "Não",
+    "warning": "Se você começar o teste, não poderá voltar."
+  },
+  "testePlay": {
+    "title": "Jogar Teste",
+    "back": "Voltar",
+    "next": "Próximo",
+    "finish": "Finalizar",
+    "send": "Enviar Respostas",
+    "yes": "Sim",
+    "no": "Não",
+    "warning": "Você quer terminar o teste e enviar as respostas?"
+  },
+  "noDataScreen": {
+    "search": "Não há dados para mostrar",
+    "goHome": "Ir para Início"
+  }
+}
