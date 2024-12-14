@@ -17,7 +17,7 @@ class ClasseCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
+    //use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
     /**
      * Configure the CrudPanel object. Apply settings to all operations.
@@ -29,6 +29,8 @@ class ClasseCrudController extends CrudController
         CRUD::setModel(\App\Models\Classe::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/classe');
         CRUD::setEntityNameStrings('classe', 'classes');
+
+        
     }
 
     /**
@@ -39,17 +41,15 @@ class ClasseCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
+
+        $this->crud->addButtonFromModelFunction('line', 'send_point', 'sendPoint', 'beginning');
+        $this->crud->addButtonFromModelFunction('line', 'send_absence', 'sendAbsence', 'end');
+        $this->crud->addButtonFromModelFunction('line', 'send_presence', 'sendPresence', 'end');
+
+
         CRUD::column('summary');
         CRUD::column('course_id');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
 
-        /**
-         * Columns can be defined using the fluent syntax or array syntax:
-         * - CRUD::column('price')->type('number');
-         * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
-         */
     }
 
     /**
@@ -83,5 +83,60 @@ class ClasseCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+    }
+
+    public function sendAbsence($id)
+    {
+        $classe = \App\Models\Classe::find($id);
+        $students = \App\Models\Student::where([
+            ['status', '=', 'active'],
+            ['course_id', '=', $classe->course_id],
+        ])->get();
+        foreach ($students as $student) {
+            $attendance = new \App\Models\Attendance;
+            $attendance->classe_id = $classe->id;
+            $attendance->student_id = $student->id;
+            $attendance->status = 'absence';
+            $attendance->save();
+        }
+        \Alert::add('success', 'The absence: ' . $classe->summary . ' has been sent to all students successfully')->flash();
+        return redirect()->back();
+    }
+
+    public function sendPresence($id)
+    {
+        $classe = \App\Models\Classe::find($id);
+        $students = \App\Models\Student::where([
+            ['status', '=', 'active'],
+            ['course_id', '=', $classe->course_id],
+        ])->get();
+        foreach ($students as $student) {
+            $attendance = new \App\Models\Attendance;
+            $attendance->classe_id = $classe->id;
+            $attendance->student_id = $student->id;
+            $attendance->status = 'presence';
+            $attendance->save();
+        }
+        \Alert::add('success', 'The presence: ' . $classe->summary . ' has been sent to all students successfully')->flash();
+        return redirect()->back();
+    }
+
+    public function sendPoint($id)
+    {
+        $classe = \App\Models\Classe::find($id);
+        $students = \App\Models\Student::where([
+            ['status', '=', 'active'],
+            ['course_id', '=', $classe->course_id],
+        ])->get();
+        foreach ($students as $student) {
+            $dailypoint = new \App\Models\Dailypoint;
+            $dailypoint->classe_id = $classe->id;
+            $dailypoint->student_id = $student->id;
+            $dailypoint->point = 3;
+            $dailypoint->save();
+        }
+        \Alert::add('success', 'The point: ' . $classe->summary . ' has been sent to all students successfully')->flash();
+        return redirect()->back();
+
     }
 }
