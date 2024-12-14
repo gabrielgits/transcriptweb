@@ -102,7 +102,10 @@ class ExamCrudController extends CrudController
     public function sendExam($id)
     {
         $exam = \App\Models\Exam::find($id);
-        $students = \App\Models\Student::where('status', 'active')->get();
+        $students = \App\Models\Student::where([
+            ['status', '=', 'active'],
+            ['course_id', '=', $exam->classe->course_id],
+        ])->get();
         foreach ($students as $student) {
             $test = new \App\Models\Test;
             $test->exam_id = $exam->id;
