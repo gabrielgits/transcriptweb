@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/storage
+/public/app
 /storage/*.key
 /vendor
 .env
@@ -13,3 +14,4 @@ yarn-error.log
 .composer/
 gabriel/Trust Tokens
 .bash_history
+
