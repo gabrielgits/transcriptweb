@@ -166,6 +166,8 @@ class StudentController extends Controller
             $dailypointsAverageFinal = $dailypointsAverage * 0.50;
         } else if ($attendancesPercent >= 70 && $attendancesPercent < 90){
             $dailypointsAverageFinal = $dailypointsAverage;
+        } else if ($attendancesPercent >= 90){
+            $dailypointsAverageFinal = $dailypointsAverage;
         }
 
         // get finalAverage
