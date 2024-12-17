@@ -77,7 +77,18 @@ class TestCrudController extends CrudController
         CRUD::setValidation(TestRequest::class);
 
         CRUD::field('id');
-        CRUD::field('status');
+        CRUD::addField([
+            'name' => 'status',
+            'type' => 'select_from_array',
+            'options' => [
+                'pending' => 'Pending',
+                'ongoing' => 'Ongoing',
+                'missed' => 'Missed',
+                'done' => 'Done',
+            ],
+            'allows_null' => false,
+            'default' => 'pending',
+        ]);
         CRUD::field('score');
         CRUD::field('points');
         CRUD::field('exam_id');
