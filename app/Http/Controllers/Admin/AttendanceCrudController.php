@@ -39,6 +39,18 @@ class AttendanceCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+
+        $this->crud->addFilter([
+            'name'  => 'student_id',
+            'type'  => 'select2',
+            'label' => 'Student',
+          ], function() {
+              return   \App\Models\Student::all()->pluck('name', 'id')->toArray();
+          }, function($value) { // if the filter is active
+              $this->crud->addClause('where', 'student_id', $value);
+        });
+
         CRUD::column('id');
         CRUD::column('student_id');
         CRUD::column('classe_id');
