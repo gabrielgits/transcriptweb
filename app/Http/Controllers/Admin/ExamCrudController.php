@@ -143,7 +143,7 @@ class ExamCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
-        CRUD::column('created_at');
+        CRUD::field('created_at');
     }
 
     public function sendExam($id)
