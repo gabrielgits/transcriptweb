@@ -47,11 +47,32 @@ class AttendanceCrudController extends CrudController
             'label' => 'Student',
           ], function() {
               return   \App\Models\Student::all()->pluck('name', 'id')->toArray();
-          }, function($value) { // if the filter is active
+          }, function($value) {
               $this->crud->addClause('where', 'student_id', $value);
         });
 
-        CRUD::column('id');
+        $this->crud->addFilter([
+            'name'  => 'classe_id',
+            'type'  => 'select2',
+            'label' => 'Classe',
+          ], function() {
+              return   \App\Models\Classe::all()->pluck('summary', 'id')->toArray();
+          }, function($value) {
+              $this->crud->addClause('where', 'classe_id', $value);
+        });
+
+        $this->crud->addFilter([
+            'name'  => 'status',
+            'type'  => 'dropdown',
+            'label' => 'Status'
+          ], [
+            'pending' => 'Pending',
+            'absent' => 'Absent',
+            'present' => 'Present', 
+          ], 
+        );
+
+        
         CRUD::column('student_id');
         CRUD::column('classe_id');
         CRUD::column('status');
