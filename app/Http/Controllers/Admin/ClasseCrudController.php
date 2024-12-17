@@ -49,6 +49,7 @@ class ClasseCrudController extends CrudController
 
         CRUD::column('summary');
         CRUD::column('course_id');
+        CRUD::column('created_at');
 
     }
 
@@ -65,6 +66,7 @@ class ClasseCrudController extends CrudController
 
         CRUD::field('summary');
         CRUD::field('course_id');
+        CRUD::field('created_at');
 
 
         /**
