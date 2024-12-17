@@ -61,6 +61,19 @@ class AttendanceCrudController extends CrudController
               $this->crud->addClause('where', 'classe_id', $value);
         });
 
+        // filter by course from course_id from table classes
+        $this->crud->addFilter([
+            'name'  => 'course_id',
+            'type'  => 'select2',
+            'label' => 'Course',
+          ], function() {
+              return   \App\Models\Course::all()->pluck('name', 'id')->toArray();
+          }, function($value) {
+                $classes = \App\Models\Classe::where('course_id', $value)->get();
+                $this->crud->addClause('whereIn', 'classe_id', $classes->pluck('id')->toArray());
+              
+        });
+
         $this->crud->addFilter([
             'name'  => 'status',
             'type'  => 'dropdown',

@@ -39,12 +39,42 @@ class DailypointCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
-        CRUD::column('point');
+     
+        $this->crud->addFilter([
+            'name'  => 'student_id',
+            'type'  => 'select2',
+            'label' => 'Student',
+          ], function() {
+              return   \App\Models\Student::all()->pluck('name', 'id')->toArray();
+          }, function($value) {
+              $this->crud->addClause('where', 'student_id', $value);
+        });
+        $this->crud->addFilter([
+            'name'  => 'classe_id',
+            'type'  => 'select2',
+            'label' => 'Classe',
+          ], function() {
+              return   \App\Models\Classe::all()->pluck('summary', 'id')->toArray();
+          }, function($value) {
+              $this->crud->addClause('where', 'classe_id', $value);
+        });
+        // filter by course from course_id from table classes
+        $this->crud->addFilter([
+            'name'  => 'course_id',
+            'type'  => 'select2',
+            'label' => 'Course',
+          ], function() {
+              return   \App\Models\Course::all()->pluck('name', 'id')->toArray();
+          }, function($value) {
+                $classes = \App\Models\Classe::where('course_id', $value)->get();
+                $this->crud->addClause('whereIn', 'classe_id', $classes->pluck('id')->toArray());
+              
+        });
+
         CRUD::column('student_id');
         CRUD::column('classe_id');
+        CRUD::column('point');
         CRUD::column('created_at');
-        CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:

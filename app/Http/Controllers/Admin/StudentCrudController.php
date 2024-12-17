@@ -40,6 +40,27 @@ class StudentCrudController extends CrudController
     protected function setupListOperation()
     {
 
+        
+        $this->crud->addFilter([
+            'name'  => 'course_id',
+            'type'  => 'select2',
+            'label' => 'Course',
+        ], function() {
+            return   \App\Models\Course::all()->pluck('name', 'id')->toArray();
+        }, function($value) {
+            $this->crud->addClause('where', 'course_id', $value);
+        });
+
+        $this->crud->addFilter([
+            'name'  => 'status',
+            'type'  => 'select2',
+            'label' => 'Status',
+        ], [
+            'pending' => 'Pending',
+            'active' => 'Active',
+            'blocked' => 'Blocked',
+        ]);
+
         CRUD::column('name');
        
         CRUD::column('phone');
@@ -59,7 +80,7 @@ class StudentCrudController extends CrudController
         $this->setupListOperation();
         CRUD::column('photo');
         CRUD::column('created_at');
-        CRUD::column('updated_at');
+       
     }
 
     /**
@@ -136,6 +157,7 @@ class StudentCrudController extends CrudController
             'type' => 'hidden',
         ]);
         CRUD::field('course_id');
+        CRUD::field('created_at');
 
 
     }
