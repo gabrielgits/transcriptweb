@@ -42,6 +42,52 @@ class ExamCrudController extends CrudController
         // add custom buttons to the linear list
         $this->crud->addButtonFromModelFunction('line', 'send_exam', 'sendExam', 'beginning');
 
+        // filters
+        $this->crud->addFilter([
+            'name'  => 'name',
+            'type'  => 'text',
+            'label' => 'Name'
+          ]);
+
+        $this->crud->addFilter([
+            'name'  => 'status',
+            'type'  => 'dropdown',
+            'label' => 'Status'
+          ], [
+            'pending' => 'Pending',
+            'ongoing' => 'Ongoing',
+            'done' => 'Done',
+            'finished' => 'Finished',
+            'missed' => 'Missed',
+        ], 
+        );
+
+        $this->crud->addFilter([
+            'name'  => 'classe_id',
+            'type'  => 'select2',
+            'label' => 'Classe',
+          ], function() {
+              return   \App\Models\Classe::all()->pluck('summary', 'id')->toArray();
+          }, function($value) {
+              $this->crud->addClause('where', 'classe_id', $value);
+        });
+
+        // filter by course from course_id from table classes
+        $this->crud->addFilter([
+            'name'  => 'course_id',
+            'type'  => 'select2',
+            'label' => 'Course',
+          ], function() {
+              return   \App\Models\Course::all()->pluck('name', 'id')->toArray();
+          }, function($value) {
+                $classes = \App\Models\Classe::where('course_id', $value)->get();
+                $this->crud->addClause('whereIn', 'classe_id', $classes->pluck('id')->toArray());
+              
+        });
+
+
+
+        // columns
         CRUD::column('name');
         CRUD::column('status');
         CRUD::column('time');
@@ -97,6 +143,7 @@ class ExamCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+        CRUD::column('created_at');
     }
 
     public function sendExam($id)

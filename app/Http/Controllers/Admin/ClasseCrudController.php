@@ -47,6 +47,16 @@ class ClasseCrudController extends CrudController
         $this->crud->addButtonFromModelFunction('line', 'send_presence', 'sendPresence', 'end');
 
 
+        $this->crud->addFilter([
+            'name'  => 'course_id',
+            'type'  => 'select2',
+            'label' => 'Course',
+          ], function() {
+              return   \App\Models\Course::all()->pluck('name', 'id')->toArray();
+          }, function($value) {
+              $this->crud->addClause('where', 'course_id', $value);
+        });
+
         CRUD::column('summary');
         CRUD::column('course_id');
         CRUD::column('created_at');
@@ -66,9 +76,7 @@ class ClasseCrudController extends CrudController
 
         CRUD::field('summary');
         CRUD::field('course_id');
-        CRUD::field('created_at');
-
-
+        
         /**
          * Fields can be defined using the fluent syntax or array syntax:
          * - CRUD::field('price')->type('number');
@@ -85,6 +93,8 @@ class ClasseCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+        CRUD::field('created_at');
+
     }
 
     public function sendAbsence($id)

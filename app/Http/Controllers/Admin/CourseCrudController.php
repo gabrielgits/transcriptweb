@@ -44,7 +44,6 @@ class CourseCrudController extends CrudController
         CRUD::column('room');
         CRUD::column('user_id');
         CRUD::column('created_at');
-        CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -68,7 +67,6 @@ class CourseCrudController extends CrudController
         CRUD::field('room');
         CRUD::field('user_id');
         CRUD::field('created_at');
-        CRUD::field('updated_at');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:

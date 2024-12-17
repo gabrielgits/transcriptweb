@@ -77,7 +77,7 @@ class AttendanceCrudController extends CrudController
         CRUD::column('classe_id');
         CRUD::column('status');
         CRUD::column('created_at');
-        CRUD::column('updated_at');
+        
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -105,6 +105,7 @@ class AttendanceCrudController extends CrudController
             'allows_null' => false,
             'default' => 'pending',
         ]); 
+        //CRUD::column('created_at');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -122,5 +123,6 @@ class AttendanceCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+        CRUD::column('created_at');
     }
 }

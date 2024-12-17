@@ -46,24 +46,49 @@ class TestCrudController extends CrudController
             'label' => 'Student',
           ], function() {
               return   \App\Models\Student::all()->pluck('name', 'id')->toArray();
-          }, function($value) { // if the filter is active
+          }, function($value) {
               $this->crud->addClause('where', 'student_id', $value);
         });
 
-        CRUD::column('id');
-        CRUD::column('status');
-        CRUD::column('score');
-        CRUD::column('points');
-        CRUD::column('exam_id');
+        $this->crud->addFilter([
+            'name'  => 'exam_id',
+            'type'  => 'select2',
+            'label' => 'Exam',
+          ], function() {
+              return   \App\Models\Exam::all()->pluck('name', 'id')->toArray();
+          }, function($value) {
+              $this->crud->addClause('where', 'exam_id', $value);
+        });
+
+        $this->crud->addFilter([
+            'name'  => 'status',
+            'type'  => 'dropdown',
+            'label' => 'Status'
+          ], [
+            'pending' => 'Pending',
+            'ongoing' => 'Ongoing',
+            'done' => 'Done',
+            'finished' => 'Finished',
+            'missed' => 'Missed',
+        ], 
+        );
+
         CRUD::column('student_id');
+        CRUD::column('exam_id');
+        CRUD::column('score');    
+        CRUD::column('status');   
         CRUD::column('created_at');
-        CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
          * - CRUD::column('price')->type('number');
          * - CRUD::addColumn(['name' => 'price', 'type' => 'number']); 
          */
+    }
+    protected function setupShowOperation()
+    {
+        $this->setupListOperation();
+        CRUD::column('points');
     }
 
     /**
@@ -76,7 +101,6 @@ class TestCrudController extends CrudController
     {
         CRUD::setValidation(TestRequest::class);
 
-        CRUD::field('id');
         CRUD::addField([
             'name' => 'status',
             'type' => 'select_from_array',
@@ -93,8 +117,6 @@ class TestCrudController extends CrudController
         CRUD::field('points');
         CRUD::field('exam_id');
         CRUD::field('student_id');
-        CRUD::field('created_at');
-        CRUD::field('updated_at');
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
@@ -102,6 +124,8 @@ class TestCrudController extends CrudController
          * - CRUD::addField(['name' => 'price', 'type' => 'number'])); 
          */
     }
+
+
 
     /**
      * Define what happens when the Update operation is loaded.
@@ -112,5 +136,6 @@ class TestCrudController extends CrudController
     protected function setupUpdateOperation()
     {
         $this->setupCreateOperation();
+        CRUD::field('created_at');
     }
 }
