@@ -96,7 +96,7 @@ class ClasseCrudController extends CrudController
             $attendance = new \App\Models\Attendance;
             $attendance->classe_id = $classe->id;
             $attendance->student_id = $student->id;
-            $attendance->status = 'absence';
+            $attendance->status = 'absent';
             $attendance->save();
         }
         \Alert::add('success', 'The absence: ' . $classe->summary . ' has been sent to all students successfully')->flash();
@@ -114,7 +114,7 @@ class ClasseCrudController extends CrudController
             $attendance = new \App\Models\Attendance;
             $attendance->classe_id = $classe->id;
             $attendance->student_id = $student->id;
-            $attendance->status = 'presence';
+            $attendance->status = 'present';
             $attendance->save();
         }
         \Alert::add('success', 'The presence: ' . $classe->summary . ' has been sent to all students successfully')->flash();
