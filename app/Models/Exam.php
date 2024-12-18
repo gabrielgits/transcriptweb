@@ -32,6 +32,10 @@ class Exam extends Model
     {
         return '<a class="btn btn-sm btn-link" href="exam/send/'.urlencode($this->id).'" data-toggle="tooltip" title="Send exam to students"><i class="la la-send"></i> Send Exam</a>';
     }
+    public function sendClose($crud = false)
+    {
+        return '<a class="btn btn-sm btn-link" href="exam/sendclose/'.urlencode($this->id).'" data-toggle="tooltip" title="Close this exam"><i class="la la-close"></i> Close</a>';
+    }
 
     /*
     |--------------------------------------------------------------------------

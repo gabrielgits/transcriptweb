@@ -42,6 +42,8 @@ class ExamCrudController extends CrudController
         // add custom buttons to the linear list
         $this->crud->addButtonFromModelFunction('line', 'send_exam', 'sendExam', 'beginning');
 
+        $this->crud->addButtonFromModelFunction('line', 'send_close', 'sendClose', 'end');
+
         // filters
         $this->crud->addFilter([
             'name'  => 'name',
@@ -163,5 +165,25 @@ class ExamCrudController extends CrudController
         return redirect()->back();
 
     
+    }
+    public function sendClose($id)
+    {
+        
+        $testes = \App\Models\Test::where('exam_id', $id)->get();
+        foreach ($testes as $test) {
+            if ($test->status == 'pending') {
+                $test->status = 'missed';
+            } else {
+                $test->status = 'finished';
+            }
+            $test->save();
+        }
+        $exam = \App\Models\Exam::find($id);
+        $exam->status = 'finished';
+        $exam->save();
+
+        \Alert::add('success', 'The exam: ' . $exam->name . ' has been closed successfully')->flash();
+        return redirect()->back();
+
     }
 }
