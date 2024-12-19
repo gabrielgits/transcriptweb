@@ -106,7 +106,7 @@ class QuestionCrudController extends CrudController
                 'allows_null' => false,
             ]
         );
-        CRUD::field('answer_id');
+        CRUD::field('answer_id')->type('number');
         // get all exams where status is pending
 
 
