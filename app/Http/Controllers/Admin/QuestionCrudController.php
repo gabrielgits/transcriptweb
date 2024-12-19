@@ -72,7 +72,7 @@ class QuestionCrudController extends CrudController
             'allows_null' => false,
         ]);
         CRUD::field('question');
-        CRUD::field(
+        CRUD::addField(
             [
                 'name' => 'correct_line',
                 'type' => 'select_from_array',
