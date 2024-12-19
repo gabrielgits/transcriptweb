@@ -39,6 +39,27 @@ class AnswerCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+        // filter by exam from exam_id from table questions
+        $this->crud->addFilter([
+            'name'  => 'exam_id',
+            'type'  => 'select2',
+            'label' => 'Exam',
+          ], function() {
+              return   \App\Models\Exam::all()->pluck('name', 'id')->toArray();
+          }, function($value) {
+                $questions = \App\Models\Question::where('exam_id', $value)->get();
+                $this->crud->addClause('whereIn', 'classe_id', $questions->pluck('id')->toArray());
+        });
+        $this->crud->addFilter([
+            'name'  => 'question_id',
+            'type'  => 'select2',
+            'label' => 'Question',
+          ], function() {
+              return   \App\Models\Question::all()->pluck('question', 'id')->toArray();
+          }, function($value) {
+                $this->crud->addClause('where', 'question_id', $value);
+          }
+        );
         CRUD::column('id');
         CRUD::column('line');
         CRUD::column('answer');
@@ -60,6 +81,9 @@ class AnswerCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(AnswerRequest::class);
+
+
+
         
         CRUD::addField([
             'name' => 'question_id',

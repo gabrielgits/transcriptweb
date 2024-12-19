@@ -39,9 +39,30 @@ class QuestionCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+        $this->crud->addFilter([
+            'name'  => 'exam_id',
+            'type'  => 'select2',
+            'label' => 'Exam',
+        ], function() {
+            return \App\Models\Exam::all()->pluck('name', 'id')->toArray();
+        }, function($value) {
+            $this->crud->addClause('where', 'exam_id', $value);
+        });
+
+
         CRUD::column('question');
         CRUD::column('correct_line');
-        CRUD::column('answer_id');
+        CRUD::addColumn(
+            [
+                'name' => 'answer_id',
+                'label' => 'Answer',
+                'type' => 'relationship',
+                'entity'    => 'answer', // the method that defines the relationship in your Model
+                'attribute' => 'answer', // foreign key attribute that is shown to user
+               
+            ]
+        );
         CRUD::column('exam_id');
 
         /**
