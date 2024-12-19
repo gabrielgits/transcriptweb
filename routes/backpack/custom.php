@@ -17,6 +17,7 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
     Route::get('/exam/send/{id}', 'ExamCrudController@sendExam');
+    Route::get('/exam/sendclose/{id}', 'ExamCrudController@sendClose');
     Route::get('/classe/sendpresence/{id}', 'ClasseCrudController@sendPresence');
     Route::get('/classe/sendabsence/{id}', 'ClasseCrudController@sendAbsence');
     Route::get('/classe/sendpoint/{id}', 'ClasseCrudController@sendPoint');
