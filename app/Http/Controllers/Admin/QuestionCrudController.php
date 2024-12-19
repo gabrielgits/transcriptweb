@@ -39,13 +39,10 @@ class QuestionCrudController extends CrudController
      */
     protected function setupListOperation()
     {
-        CRUD::column('id');
         CRUD::column('question');
         CRUD::column('correct_line');
         CRUD::column('answer_id');
         CRUD::column('exam_id');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -64,10 +61,6 @@ class QuestionCrudController extends CrudController
     {
         CRUD::setValidation(QuestionRequest::class);
 
-        CRUD::field('question');
-        CRUD::field('correct_line');
-        CRUD::field('answer_id');
-        // get all exams where status is pending
         CRUD::addField([
             'name' => 'exam_id',
             'type' => 'select',
@@ -78,6 +71,23 @@ class QuestionCrudController extends CrudController
             }),
             'allows_null' => false,
         ]);
+        CRUD::field('question');
+        CRUD::field(
+            [
+                'name' => 'correct_line',
+                'type' => 'select_from_array',
+                'options' => [
+                    'A' => 'A',
+                    'B' => 'B',
+                    'C' => 'C',
+                    'D' => 'D',
+                ],
+                'allows_null' => false,
+            ]
+        );
+        CRUD::field('answer_id');
+        // get all exams where status is pending
+
 
         /**
          * Fields can be defined using the fluent syntax or array syntax:
