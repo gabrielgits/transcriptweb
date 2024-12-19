@@ -43,8 +43,6 @@ class AnswerCrudController extends CrudController
         CRUD::column('line');
         CRUD::column('answer');
         CRUD::column('question_id');
-        CRUD::column('created_at');
-        CRUD::column('updated_at');
 
         /**
          * Columns can be defined using the fluent syntax or array syntax:
@@ -63,7 +61,16 @@ class AnswerCrudController extends CrudController
     {
         CRUD::setValidation(AnswerRequest::class);
         
-        CRUD::field('question_id');
+        CRUD::addField([
+            'name' => 'question_id',
+            'type' => 'select',
+            'model' => 'App\Models\Question',
+            'attribute' => 'question',
+            'options'   => (function ($query) {
+                return $query->orderBy('id', 'desc')->get();
+            }),
+            'allows_null' => false,
+        ]);
         CRUD::field('line');
         CRUD::field('answer');
        
