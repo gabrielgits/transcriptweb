@@ -81,7 +81,7 @@ class AuthController extends Controller
         return response([
             'status' => true,
             'message' => 'Successfully!',
-            'data' => Auth::user(),
+            'data' => new StudentResource(Auth::user()),
         ]);
     }
     
