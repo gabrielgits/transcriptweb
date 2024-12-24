@@ -99,7 +99,6 @@ class TestController extends Controller
         //
         $validator = Validator::make($request->all(), [
             'testeId' => 'required',
-            'studentId' => 'required',
         ]);
 
         if ($validator->fails()) {
