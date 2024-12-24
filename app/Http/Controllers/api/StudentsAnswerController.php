@@ -44,7 +44,7 @@ class StudentsAnswerController extends Controller
         //
         $validator = Validator::make($request->all(), [
             'studentId' => 'required', // id of student
-            'answers' => 'required', // map of answers <int:question_id> => <int:answer_id>
+            'selectedAnswers' => 'required', // map of answers <int:question_id> => <int:answer_id>
             'testeId' => 'required', // id of test
         ]);
 
@@ -67,7 +67,7 @@ class StudentsAnswerController extends Controller
 
         $correctAnswers = 0;
 
-        foreach ($request->input('answers') as $questionId => $answerId) {
+        foreach ($request->input('selectedAnswers') as $questionId => $answerId) {
             $question = $teste->exam->questions->where('id', $questionId)->first();
             if ($question->answer_id == $answerId) {
                 $correctAnswers++;
