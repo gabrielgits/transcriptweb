@@ -120,7 +120,11 @@ class TestController extends Controller
 
         $questions = Question::where('exam_id', $teste->exam_id)->get();
 
-        return QuestionResource::collection($questions);
+        return response()->json([
+            'status' => true, 
+            'message' => 'Success', 
+            'data' => QuestionResource::collection($questions),
+        ]);
        
     }
 
