@@ -94,22 +94,11 @@ class TestController extends Controller
         return Test::destroy($id);
     }
 
-    public function startTest(Request $request)
+    public function startTest($testeId)
     {
-        //
-        $validator = Validator::make($request->all(), [
-            'testeId' => 'required',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => $validator->errors(),
-                'data' => null,
-            ]);
-        }
 
-        $teste = Test::find($request->input('testeId'));
+        $teste = Test::find($testeId);
         if (($teste->status != 'ongoing') && ($teste->status != 'pending')) {
             return response()->json([
                 'status' => false,
