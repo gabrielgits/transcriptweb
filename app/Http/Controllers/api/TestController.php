@@ -41,44 +41,7 @@ class TestController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $validator = Validator::make($request->all(), [
-            'testeId' => 'required',
-            'studentId' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => $validator->errors(),
-                'data' => null,
-            ]);
-        }
-
-        $teste = Test::find($request->input('testeId'));
-        if (($teste->status != 'ongoing') && ($teste->status != 'pending')) {
-            return response()->json([
-                'status' => false,
-                'message' => 'The test is not available',
-                'data' => null,
-            ]);
-        }
-
-        if (($teste->exam->status != 'ongoing') && ($teste->exam->status != 'pending')) {
-            return response()->json([
-                'status' => false,
-                'message' => 'The exam is not available',
-                'data' => null,
-            ]);
-        }
-
-        $teste->status = 'ongoing';
-        $teste->save();
-
-        $questions = Question::where('exam_id', $teste->exam_id)->get();
-
-        return QuestionResource::collection($questions);
-       
+               
     }
 
     /**
@@ -129,6 +92,48 @@ class TestController extends Controller
     {
         //
         return Test::destroy($id);
+    }
+
+    public function startTest(Request $request)
+    {
+        //
+        $validator = Validator::make($request->all(), [
+            'testeId' => 'required',
+            'studentId' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors(),
+                'data' => null,
+            ]);
+        }
+
+        $teste = Test::find($request->input('testeId'));
+        if (($teste->status != 'ongoing') && ($teste->status != 'pending')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'The test is not available',
+                'data' => null,
+            ]);
+        }
+
+        if (($teste->exam->status != 'ongoing') && ($teste->exam->status != 'pending')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'The exam is not available',
+                'data' => null,
+            ]);
+        }
+
+        $teste->status = 'ongoing';
+        $teste->save();
+
+        $questions = Question::where('exam_id', $teste->exam_id)->get();
+
+        return QuestionResource::collection($questions);
+       
     }
 
     public function student($id){

@@ -63,6 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('testes/student/{id}', [TestController::class, 'student']);
     Route::get('testes/student/{id}/limit/{limit}', [TestController::class, 'studentLimit']);
+    Route::get('testes/start/{id}', [TestController::class, 'startTest']);
 
     Route::get('students/{id}/score', [StudentController::class, 'finalScore']);
 

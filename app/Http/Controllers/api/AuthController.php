@@ -62,7 +62,7 @@ class AuthController extends Controller
                 'status' => false,
                 'data' => null,
                 'message' => 'Invalid credentials',
-            ], 401);
+            ]);
         }
     
         $token = $student->createToken(env('TOKEN_APP'))->plainTextToken;
@@ -74,7 +74,7 @@ class AuthController extends Controller
                 'student' => new StudentResource($student),
                 'token' => $token,
             ]
-        ], 200);
+        ]);
     }
     
     public function profile() {
