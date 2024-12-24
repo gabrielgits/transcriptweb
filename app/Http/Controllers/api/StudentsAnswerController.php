@@ -77,7 +77,7 @@ class StudentsAnswerController extends Controller
         $score = ($correctAnswers / $teste->exam->questions->count()) * 20;
 
         // save all answers
-        foreach ($request->input('answers') as $questionId => $answerId) {
+        foreach ($request->input('selectedAnswers') as $questionId => $answerId) {
             $studentAnswer = new StudentsAnswer;
             $studentAnswer->student_id = $request->input('studentId');
             $studentAnswer->question_id = $questionId;
