@@ -145,6 +145,7 @@ class TestController extends Controller
             ['student_id', $id],
             ['status', '<>' , 'pending'],
             ['status', '<>' , 'ongoing'],
+            ['exam_id', '<>' , '3'],
         ])->orderBy('id', 'desc')->get();
 
 
