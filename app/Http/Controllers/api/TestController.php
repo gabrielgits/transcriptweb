@@ -130,7 +130,10 @@ class TestController extends Controller
 
     public function student($id){
       
-        $testes = Test::where('student_id', $id)->get();
+        $testes = Test::where([
+            ['student_id', $id],
+            ['exam_id', '<>' , 3],
+        ])->get();
         
         return response()->json([
             'status' => true,
@@ -145,6 +148,7 @@ class TestController extends Controller
             ['student_id', $id],
             ['status', '<>' , 'pending'],
             ['status', '<>' , 'ongoing'],
+            ['exam_id', '<>' , 3],
         ])->orderBy('id', 'desc')->get();
 
 

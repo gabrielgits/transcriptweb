@@ -19,6 +19,7 @@ use App\Http\Controllers\api\AnswerController;
 use App\Http\Controllers\api\ExamController;
 use App\Http\Controllers\api\AttendanceController;
 use App\Http\Controllers\api\DailypointController;
+use App\Http\Controllers\api\NotificationController;
 
 
 
@@ -54,6 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('attendances', AttendanceController::class);
     Route::apiResource('answers', AnswerController::class);
 
+
     // API Custom Routes
     Route::get('attendances/student/{id}', [AttendanceController::class, 'student']);
     Route::get('attendances/student/{id}/all', [AttendanceController::class, 'studentAll']);
@@ -68,4 +70,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('students/{id}/score', [StudentController::class, 'finalScore']);
 
     Route::get('questions/exam/{id}', [QuestionController::class, 'questions']);
+
+    Route::get('notifications/student/{id}/state/{state}', [NotificationController::class, 'student']);
 });
