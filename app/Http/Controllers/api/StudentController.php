@@ -141,6 +141,7 @@ class StudentController extends Controller
             ['student_id', $id],
             ['status', '<>' , 'pending'],
             ['status', '<>' , 'ongoing'],
+            ['exam_id', '<>' , 3],
         ])->orderBy('id', 'desc')->get();
         
         $testesAverage = $testes->avg('score');
