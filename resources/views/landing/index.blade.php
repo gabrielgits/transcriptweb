@@ -29,7 +29,7 @@
                     <br>  
                     <br>  
                     <div class="white-button first-button scroll-to-section">
-                      <a href="https://app.stranscript.online"><img height="50" src="landing/assets/images/button-app-store.png" alt=""></a>
+                      <a href="https://apps.apple.com/app/school-transcript/id6739307826"><img height="50" src="landing/assets/images/button-app-store.png" alt=""></a>
                     </div>
                     <br>  
                     <br>  
