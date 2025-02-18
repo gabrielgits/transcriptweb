@@ -43,8 +43,13 @@ class ExamCrudController extends CrudController
     // Get all courses belonging to current user
     $userCourses = \App\Models\Course::where('user_id', backpack_user()->id)->pluck('id');
     
-    // Filter classes to only show those from user's courses
-    $this->crud->addClause('whereIn', 'course_id', $userCourses);
+    // Get all classes from user's courses
+    $userClasses = \App\Models\Classe::whereIn('course_id', $userCourses)->pluck('id');
+    
+    
+    // Filter exams to only show those from user's classes
+    $this->crud->addClause('whereIn', 'classe_id', $userClasses);
+
 
         // add custom buttons to the linear list
         $this->crud->addButtonFromModelFunction('line', 'send_exam', 'sendExam', 'beginning');
