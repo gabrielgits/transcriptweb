@@ -83,10 +83,6 @@ class AttendanceCrudController extends CrudController
               
         });
 
-       
-
-        $this->crud->addClause('where', 'classe_id', $value);
-
         $this->crud->addFilter([
             'name'  => 'status',
             'type'  => 'dropdown',
