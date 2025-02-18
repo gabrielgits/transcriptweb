@@ -40,6 +40,12 @@ class StudentCrudController extends CrudController
     protected function setupListOperation()
     {
 
+    // Get all courses belonging to current user
+    $userCourses = \App\Models\Course::where('user_id', backpack_user()->id)->pluck('id');
+    
+    // Filter studants to only show those from user's courses
+    $this->crud->addClause('whereIn', 'course_id', $userCourses);
+
         
         $this->crud->addFilter([
             'name'  => 'course_id',

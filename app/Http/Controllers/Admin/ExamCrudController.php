@@ -39,6 +39,13 @@ class ExamCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+    // Get all courses belonging to current user
+    $userCourses = \App\Models\Course::where('user_id', backpack_user()->id)->pluck('id');
+    
+    // Filter exames to only show those from user's courses
+    $this->crud->addClause('whereIn', 'course_id', $userCourses);
+
         // add custom buttons to the linear list
         $this->crud->addButtonFromModelFunction('line', 'send_exam', 'sendExam', 'beginning');
 

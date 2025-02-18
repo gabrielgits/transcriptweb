@@ -39,6 +39,15 @@ class DailypointCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+    // Get all courses belonging to current user
+    $userCourses = \App\Models\Course::where('user_id', backpack_user()->id)->pluck('id');
+    
+    // Get all studants from user's courses
+    $userStudants = \App\Models\Student::whereIn('course_id', $userCourses)->pluck('id');
+    
+    // Filter dailypoints to only show those from user's studants
+    $this->crud->addClause('whereIn', 'student_id', $userStudants);
      
         $this->crud->addFilter([
             'name'  => 'student_id',

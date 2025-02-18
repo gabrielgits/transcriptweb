@@ -42,6 +42,12 @@ class ClasseCrudController extends CrudController
     protected function setupListOperation()
     {
 
+    // Get all courses belonging to current user
+    $userCourses = \App\Models\Course::where('user_id', backpack_user()->id)->pluck('id');
+    
+    // Filter classes to only show those from user's courses
+    $this->crud->addClause('whereIn', 'course_id', $userCourses);
+
         $this->crud->addButtonFromModelFunction('line', 'send_point', 'sendPoint', 'beginning');
         $this->crud->addButtonFromModelFunction('line', 'send_absence', 'sendAbsence', 'end');
         $this->crud->addButtonFromModelFunction('line', 'send_presence', 'sendPresence', 'end');

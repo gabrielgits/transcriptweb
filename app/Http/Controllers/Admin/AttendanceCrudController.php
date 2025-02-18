@@ -40,6 +40,15 @@ class AttendanceCrudController extends CrudController
     protected function setupListOperation()
     {
 
+    // Get all courses belonging to current user
+    $userCourses = \App\Models\Course::where('user_id', backpack_user()->id)->pluck('id');
+    
+    // Get all studants from user's courses
+    $userStudants = \App\Models\Student::whereIn('course_id', $userCourses)->pluck('id');
+    
+    // Filter attendances to only show those from user's studants
+    $this->crud->addClause('whereIn', 'student_id', $userStudants);
+
 
         $this->crud->addFilter([
             'name'  => 'student_id',
@@ -73,6 +82,10 @@ class AttendanceCrudController extends CrudController
                 $this->crud->addClause('whereIn', 'classe_id', $classes->pluck('id')->toArray());
               
         });
+
+       
+
+        $this->crud->addClause('where', 'classe_id', $value);
 
         $this->crud->addFilter([
             'name'  => 'status',
