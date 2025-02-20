@@ -97,14 +97,10 @@ class AttendanceCrudController extends CrudController
         CRUD::column('student_id');
         CRUD::column('classe_id');
         CRUD::addColumn([
-
-            'name'  => 'status',
-            'label' => 'URL', // Table column heading
-            'type'  => 'model_function_attribute',
-            'function_name' => 'getStatusLink', // the method in your Model
-            // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-            //'attribute' => 'route',
-            // 'limit' => 100, // Limit the number of characters shown
+            'name' => 'status',
+            'type' => 'model_function',
+            'function_name' => 'getStatusLink',
+            'label' => 'Status',
         ]);
         CRUD::column('created_at');
         
