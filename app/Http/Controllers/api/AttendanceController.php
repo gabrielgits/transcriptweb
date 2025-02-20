@@ -162,4 +162,13 @@ class AttendanceController extends Controller
             'data' => AttendanceResource::collection($attendances),
         ]);
     }
+
+    public function changeStatus($id, $status)
+    {
+        $attendance = Attendance::findOrFail($id);
+        $attendance->status = $status;
+        $attendance->save();
+
+        return redirect()->back()->with('status', 'Attendance status updated successfully!');
+    }
 }

@@ -40,24 +40,24 @@ class AttendanceCrudController extends CrudController
     protected function setupListOperation()
     {
 
-    // Get all courses belonging to current user
-    $userCourses = \App\Models\Course::where('user_id', backpack_user()->id)->pluck('id');
-    
-    // Get all students from user's courses
-    $userStudents = \App\Models\Student::whereIn('course_id', $userCourses)->pluck('id');
-    
-    // Filter attendances to only show those from user's students
-    $this->crud->addClause('whereIn', 'student_id', $userStudents);
+        // Get all courses belonging to current user
+        $userCourses = \App\Models\Course::where('user_id', backpack_user()->id)->pluck('id');
+        
+        // Get all students from user's courses
+        $userStudents = \App\Models\Student::whereIn('course_id', $userCourses)->pluck('id');
+        
+        // Filter attendances to only show those from user's students
+        $this->crud->addClause('whereIn', 'student_id', $userStudents);
 
-    $this->crud->addFilter([
-        'name'  => 'student_id',
-        'type'  => 'select2',
-        'label' => 'Student',
-      ], function() use ($userStudents) {
-          return \App\Models\Student::whereIn('id', $userStudents)->pluck('name', 'id')->toArray();
-      }, function($value) {
-          $this->crud->addClause('where', 'student_id', $value);
-    });
+        $this->crud->addFilter([
+            'name'  => 'student_id',
+            'type'  => 'select2',
+            'label' => 'Student',
+        ], function() use ($userStudents) {
+            return \App\Models\Student::whereIn('id', $userStudents)->pluck('name', 'id')->toArray();
+        }, function($value) {
+            $this->crud->addClause('where', 'student_id', $value);
+        });
 
         $this->crud->addFilter([
             'name'  => 'classe_id',
@@ -97,6 +97,12 @@ class AttendanceCrudController extends CrudController
         CRUD::column('student_id');
         CRUD::column('classe_id');
         CRUD::column('status');
+        CRUD::addColumn([
+            'name' => 'status',
+            'type' => 'model_function',
+            'function_name' => 'getStatusLink',
+            'label' => 'Status',
+        ]);
         CRUD::column('created_at');
         
 

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,7 @@ Route::get('/terms-conditions', function () {
 Route::get('/delete', function () {
     return view('landing.delete');
 })->name('delete');
+
+Route::get('/attendance/change-status/{id}/{status}', [AttendanceController::class, 'changeStatus'])->name('attendance.changeStatus');
 
 
