@@ -41,8 +41,8 @@ class Attendance extends Model
                 $color = 'blue';
                 break;
         }
-        $url ='googlw.com'; //route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
-        return '<a href="#" target="_blank">'.$this->status.'</a>';
+        $url =route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
+        return '<a href="'.$url.'" target="_blank">'.$this->status.'</a>';
         //return '<a href="' . $url . '" style="color:' . $color . '">' . $this->status . '</a>';
     }
 
