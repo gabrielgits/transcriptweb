@@ -39,6 +39,10 @@ class CourseCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+            // Filter classes to only show those from user's courses
+            $this->crud->addClause('where', 'student_id', $backpack_user()->id);
+
         CRUD::column('id');
         CRUD::column('name');
         CRUD::column('room');
