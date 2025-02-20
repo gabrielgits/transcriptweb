@@ -42,9 +42,9 @@ class Attendance extends Model
                 $color = 'text-warning';
                 break;
         }
-        //$url = route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
+        $url = route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
         //return '<a href="'.$url.'">texte</a>';
-        return '<span class="'.$color.'">'.$this->status.'</span>';
+        return '<a href="'.$url.'"><span class="'.$color.'">'.$this->status.'</span></a>';
     }
 
     /*
