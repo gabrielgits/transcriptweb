@@ -29,20 +29,16 @@ class Attendance extends Model
     |--------------------------------------------------------------------------
     */
     public function getStatusLink() {
-        $color = 'black'; // default color
-        switch ($this->status) {
-            case 'present':
-                $color = 'green';
-                break;
-            case 'absent':
-                $color = 'red';
-                break;
-            case 'pending':
-                $color = 'blue';
-                break;
-        }
+        $colors = [
+            'present' => 'green',
+            'absent' => 'red',
+            'pending' => 'blue',
+        ];
+    
+        $color = $colors[$this->status] ?? 'black';
         $url = route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
-        return '<a href="' . $url . '" style="color:' . $color . '">' . $this->status . '</a>';
+    
+        return "<a href=\"{$url}\" style=\"color:{$color}\">{$this->status}</a>";
     }
 
     /*
