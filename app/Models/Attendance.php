@@ -33,18 +33,18 @@ class Attendance extends Model
         $color = 'black'; // default color
         switch ($this->status) {
             case 'present':
-                $color = 'green';
+                $color = 'text-success';
                 break;
             case 'absent':
-                $color = 'red';
+                $color = 'text-danger';
                 break;
             case 'pending':
-                $color = 'blue';
+                $color = 'text-warning';
                 break;
         }
-        $url = route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
+        //$url = route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
         //return '<a href="'.$url.'">texte</a>';
-        return '<span class="text-danger">'.$this->status.'</span>';
+        return '<span class="'.$color.'">'.$this->status.'</span>';
     }
 
     /*
