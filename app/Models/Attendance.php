@@ -42,7 +42,7 @@ class Attendance extends Model
                 break;
         }
         $url ='googlw.com'; //route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
-        return '<a href="'.url($this->status).'" target="_blank">'.$this->status.'</a>';
+        return '<a href="#" target="_blank">'.$this->status.'</a>';
         //return '<a href="' . $url . '" style="color:' . $color . '">' . $this->status . '</a>';
     }
 
