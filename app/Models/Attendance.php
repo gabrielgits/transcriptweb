@@ -44,7 +44,7 @@ class Attendance extends Model
         }
         $urlroute = route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
 
-        return '<a href="$urlroute"><span class="'.$color.'">'.$this->status.'</span></a>';
+        return '<a href="google.com"><span class="'.$color.'">'.$this->status.'</span></a>';
     }
 
     /*
