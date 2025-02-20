@@ -62,6 +62,7 @@ class UserCrudController extends CrudController
 
         CRUD::field('name');
         CRUD::field('email');
+        CRUD::field('course_id');
         CRUD::field('password');
 
         /**
