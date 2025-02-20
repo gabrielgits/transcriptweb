@@ -28,7 +28,8 @@ class Attendance extends Model
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-    public function getStatusLink() {
+    public function getStatusLink()
+    {
         $color = 'black'; // default color
         switch ($this->status) {
             case 'present':
@@ -41,9 +42,8 @@ class Attendance extends Model
                 $color = 'blue';
                 break;
         }
-       // $url =route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
-        return '<a href="/attendance/change-status/'. $this->id .'/'.$this->status.'" target="_blank">teste</a>';
-        //return '<a href="' . $url . '" style="color:' . $color . '">' . $this->status . '</a>';
+        $url = route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
+        return '<a href="'.$url.'">'.$this->status.'</a>';
     }
 
     /*
