@@ -44,7 +44,7 @@ class Attendance extends Model
         }
         $url = route('attendance.changeStatus', ['id' => $this->id, 'status' => $this->status]);
         //return '<a href="'.$url.'">texte</a>';
-        return '<span class="text-danger">Something</span>';
+        return '<span class="text-danger">'.$this->status.'</span>';
     }
 
     /*
