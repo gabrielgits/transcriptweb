@@ -39,6 +39,17 @@ class StudentsAnswerCrudController extends CrudController
      */
     protected function setupListOperation()
     {
+
+    // Get all courses belonging to current user
+    $userCourses = \App\Models\Course::where('user_id', backpack_user()->id)->pluck('id');
+    
+    // Get all students from user's courses
+    $userStudents = \App\Models\Student::whereIn('course_id', $userCourses)->pluck('id');
+    
+    // Filter attendances to only show those from user's students
+    $this->crud->addClause('whereIn', 'student_id', $userStudents);
+
+
         CRUD::column('id');
         CRUD::column('student_id');
         CRUD::column('answer_id');
