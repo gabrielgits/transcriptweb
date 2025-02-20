@@ -103,7 +103,7 @@ class AttendanceCrudController extends CrudController
             'type'  => 'model_function_attribute',
             'function_name' => 'getStatusLink', // the method in your Model
             // 'function_parameters' => [$one, $two], // pass one/more parameters to that method
-            'attribute' => 'route',
+            //'attribute' => 'route',
             // 'limit' => 100, // Limit the number of characters shown
         ]);
         CRUD::column('created_at');
