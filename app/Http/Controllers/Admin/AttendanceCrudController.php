@@ -96,7 +96,6 @@ class AttendanceCrudController extends CrudController
         
         CRUD::column('student_id');
         CRUD::column('classe_id');
-        CRUD::column('status');
         CRUD::addColumn([
             'name' => 'status',
             'type' => 'model_function',
