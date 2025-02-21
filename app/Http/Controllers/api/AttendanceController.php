@@ -165,10 +165,27 @@ class AttendanceController extends Controller
 
     public function changeStatus($id, $status)
     {
+
+
+        $validStatuses = ['present', 'absent', 'pending'];
+        if (!in_array($status, $validStatuses)) {
+            \Alert::add('warning', 'Invalid status provided!')->flash();
+            return redirect()->back();
+        }   
+
+        $newStatus = match ($status) {
+            'present' => 'absent',
+            'absent' => 'present',
+            'pending' => 'present',
+            default => 'pending',
+        };
+
         $attendance = Attendance::findOrFail($id);
-        $attendance->status = $status;
+        $attendance->status = $newStatus;
         $attendance->save();
 
-        return redirect()->back()->with('status', 'Attendance status updated successfully!');
+        \Alert::add('success', 'Attendance status updated successfully!')->flash();
+        return redirect()->back();
+
     }
 }
