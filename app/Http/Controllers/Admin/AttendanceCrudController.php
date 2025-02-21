@@ -95,26 +95,25 @@ class AttendanceCrudController extends CrudController
 
         CRUD::column('student_id');
         CRUD::column('classe_id');
-
         CRUD::addColumn([
             'name'     => 'status',
             'label'    => 'Status',
             'type'     => 'closure',
             'function' => function($entry) {
-            $color = 'bg-black'; // default color
+            $color = 'badge-dark'; // default color
             switch ($entry->status) {
                 case 'present':
-                $color = 'bg-success';
+                $color = 'badge-success';
                 break;
                 case 'absent':
-                $color = 'bg-danger';
+                $color = 'badge-danger';
                 break;
                 case 'pending':
-                $color = 'bg-warning';
+                $color = 'badge-warning';
                 break;
             }
             $url = route('attendance.changeStatus', ['id' => $entry->id, 'status' => $entry->status]);
-            return '<a href="'.$url.'" class="'.$color.'">'.$entry->status.'</a>';
+            return '<a href="'.$url.'" class="badge '.$color.'">'.$entry->status.'</a>';
             }
         ]);
 
