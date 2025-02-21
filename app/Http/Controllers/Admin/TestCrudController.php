@@ -53,8 +53,8 @@ class TestCrudController extends CrudController
             'name'  => 'student_id',
             'type'  => 'select2',
             'label' => 'Student',
-        ], function() use ($userStudents) {
-            return \App\Models\Student::whereIn('id', $userStudents)->pluck('name', 'id')->toArray();
+        ], function() use ($userStudants) {
+            return \App\Models\Student::whereIn('id', $userStudants)->pluck('name', 'id')->toArray();
         }, function($value) {
             $this->crud->addClause('where', 'student_id', $value);
       });
